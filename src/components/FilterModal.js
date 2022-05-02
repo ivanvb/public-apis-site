@@ -1,5 +1,5 @@
 import React, { forwardRef, useContext } from 'react';
-import { Box, IconButton, Paper, MenuItem, Typography, Checkbox } from '@mui/material';
+import { Box, IconButton, Paper, MenuItem, Typography, Checkbox, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAccordion from './FilterAccordion';
 import useLockBodyScroll from '../hooks/useBodyLock';
@@ -56,18 +56,6 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Box
-                    sx={{
-                        py: 1,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Typography sx={{ fontWeight: 900 }} variant="h6">
-                        Filter
-                    </Typography>
-                </Box>
                 <IconButton
                     sx={{
                         display: {
@@ -76,12 +64,34 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
                         },
                         height: 40,
                         width: 40,
-                        marginRight: -1,
+                        right: 18,
+                        position: 'absolute',
+                        top: 12,
                     }}
                     onClick={onCloseIntent}
                 >
                     <CloseIcon />
                 </IconButton>
+                <Box
+                    sx={{
+                        py: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        mt: {
+                            xs: 3,
+                            md: 0,
+                        },
+                    }}
+                >
+                    <Typography sx={{ fontWeight: 900 }} variant="h6">
+                        Filter
+                    </Typography>
+                    <Button onClick={resetFilter} color="error">
+                        Reset
+                    </Button>
+                </Box>
             </Box>
 
             {filters.map((filter, i) => {
