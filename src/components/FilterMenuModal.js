@@ -123,4 +123,5 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
     );
 });
 
+FilterMenuModal.displayName = 'FilterMenuModal';
 export default FilterMenuModal;

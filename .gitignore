@@ -32,3 +32,4 @@ yarn-error.log*
 .vercel
 
 **/data/public-apis-dump.json
+**/data/public-apis-dump.csv

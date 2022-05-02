@@ -1,22 +1,48 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import csv from '../../data/public-apis-dump.csv';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+
+const categoriesValues = new Set();
+const authValues = new Set();
+const httpsValues = ['Yes', 'No'];
+const corsValues = ['Yes', 'No'];
+
+let currentCategory = '';
+const flatData = csv.map((resource) => {
+    const [category, title, url, description, auth, https, cors] = resource;
+    if (category.length > 0) {
+        currentCategory = category;
+        categoriesValues.add(currentCategory);
+    }
+    authValues.add(auth);
+
+    return {
+        category: currentCategory,
+        title,
+        url,
+        description,
+        auth,
+        https,
+        cors,
+    };
+});
 
 const filters = [
     {
         name: 'Categories',
-        values: ['Animals', 'Space', 'Science', 'Programming'],
+        values: [...categoriesValues].sort((a, b) => a.localeCompare(b)),
     },
     {
         name: 'Auth',
-        values: ['No', 'Token', 'OAuth'],
+        values: [...authValues].sort((a, b) => a.localeCompare(b)),
     },
     {
         name: 'Https',
-        values: ['Yes', 'No'],
+        values: httpsValues,
     },
     {
         name: 'Cors',
-        values: ['Yes', 'No'],
+        values: corsValues,
     },
 ];
 
