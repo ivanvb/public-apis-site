@@ -1,3 +1,15 @@
 html {
     scrollbar-gutter: stable;
 }
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #17171b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FFDE01;
+}
