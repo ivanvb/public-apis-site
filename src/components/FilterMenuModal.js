@@ -34,6 +34,9 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
                     xs: '100%',
                     md: 500,
                 },
+                maxHeight: {
+                    md: 500,
+                },
                 position: 'absolute',
                 top: {
                     xs: 0,
