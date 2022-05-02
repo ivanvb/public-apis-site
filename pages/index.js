@@ -1,4 +1,5 @@
 import React from 'react';
+import FilterMenu from '../src/components/FilterMenu';
 
 const Home = () => {
     const filters = [
@@ -22,6 +23,7 @@ const Home = () => {
 
     return (
         <>
+            <FilterMenu filters={filters} />
             <p style={{ height: '300vh' }}>hello world!</p>
         </>
     );
