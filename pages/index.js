@@ -1,26 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FilterMenu from '../src/components/FilterMenu';
+import { ApplicationContext } from '../src/context/ApplicationContext';
 
 const Home = () => {
-    const filters = [
-        {
-            name: 'Categories',
-            values: ['Animals', 'Space', 'Science', 'Programming'],
-        },
-        {
-            name: 'Auth',
-            values: ['No', 'Token', 'OAuth'],
-        },
-        {
-            name: 'Https',
-            values: ['Yes', 'No'],
-        },
-        {
-            name: 'Cors',
-            values: ['Yes', 'No'],
-        },
-    ];
-
+    const {
+        filter: { filters },
+    } = useContext(ApplicationContext);
     return (
         <>
             <FilterMenu filters={filters} />
