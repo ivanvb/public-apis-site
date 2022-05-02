@@ -1,19 +1,18 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useContext } from 'react';
 import { Box, IconButton, Paper, MenuItem, Typography, Checkbox } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FilterAccordion from './FilterAccordion';
 import useLockBodyScroll from '../hooks/useBodyLock';
+import { ApplicationContext } from '../context/ApplicationContext';
 
 const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
     useLockBodyScroll();
-    const [checkedValues, setCheckedValues] = React.useState(
-        filters.reduce((acc, curr) => {
-            return { ...acc, [curr.name]: {} };
-        }, {})
-    );
+    const {
+        filter: { selectedFilters, setSelectedFilters, resetFilter },
+    } = useContext(ApplicationContext);
 
     function toggleCheck(category, item) {
-        setCheckedValues((prev) => {
+        setSelectedFilters((prev) => {
             const copy = JSON.parse(JSON.stringify(prev));
             copy[category][item] = prev[category][item] ? false : true;
             return { ...copy };
@@ -21,7 +20,7 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
     }
 
     function getSelectedFiltersPerCategory(categoryName) {
-        return Object.entries(checkedValues[categoryName]).reduce((acc, curr) => {
+        return Object.entries(selectedFilters[categoryName]).reduce((acc, curr) => {
             const [_, val] = curr;
 
             return val ? ++acc : acc;
@@ -101,7 +100,7 @@ const FilterMenuModal = forwardRef(({ filters, onCloseIntent }, ref) => {
                                     onClick={() => toggleCheck(filter.name, value)}
                                 >
                                     <Checkbox
-                                        checked={Boolean(checkedValues[filter.name][value])}
+                                        checked={Boolean(selectedFilters[filter.name][value])}
                                     />
                                     {value}
                                 </MenuItem>
