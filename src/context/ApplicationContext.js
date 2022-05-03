@@ -52,6 +52,8 @@ const initialFilterState = filters.reduce((acc, curr) => {
 
 export const ApplicationContext = React.createContext();
 export const ApplicationProvider = (props) => {
+    const [selectedData, setSelectedData] = React.useState(flatData);
+
     const [selectedFilters, setSelectedFilters] = useLocalStorage(
         'selectedFilters',
         initialFilterState
@@ -70,6 +72,7 @@ export const ApplicationProvider = (props) => {
                     setSelectedFilters,
                     resetFilter,
                 },
+                data: selectedData,
             }}
         >
             {props.children}

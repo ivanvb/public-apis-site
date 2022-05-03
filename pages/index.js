@@ -1,16 +1,12 @@
-import React, { useContext } from 'react';
-import FilterMenu from '../src/components/FilterMenu';
-import { ApplicationContext } from '../src/context/ApplicationContext';
+import React from 'react';
+import ApiTable from '../src/components/ApisTable';
+import { Container } from '@mui/material';
 
 const Home = () => {
-    const {
-        filter: { filters },
-    } = useContext(ApplicationContext);
     return (
-        <>
-            <FilterMenu filters={filters} />
-            <p style={{ height: '300vh' }}>hello world!</p>
-        </>
+        <Container sx={{ pt: 3 }}>
+            <ApiTable />
+        </Container>
     );
 };
 
