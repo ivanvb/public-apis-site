@@ -14,7 +14,7 @@ import { useTheme } from '@mui/system';
 const DataTable = ({ headings, rows = [] }) => {
     const theme = useTheme();
     return (
-        <TableContainer component={Paper} sx={{ overflow: 'visible', mb: 12 }}>
+        <TableContainer component={Paper} sx={{ mb: 12 }}>
             <Table
                 sx={{
                     '& tbody tr:last-child td': {
