@@ -9,8 +9,10 @@ import {
     TableRow,
     Link,
 } from '@mui/material';
+import { useTheme } from '@mui/system';
 
 const DataTable = ({ headings, rows = [] }) => {
+    const theme = useTheme();
     return (
         <TableContainer component={Paper} sx={{ overflow: 'visible', mb: 12 }}>
             <Table
@@ -20,7 +22,9 @@ const DataTable = ({ headings, rows = [] }) => {
                     },
                 }}
             >
-                <TableHead sx={{ position: 'sticky', top: 0, background: '#17171B' }}>
+                <TableHead
+                    sx={{ position: 'sticky', top: 0, background: theme.palette.background.darker }}
+                >
                     <TableRow>
                         {headings.map((heading, i) => {
                             return (
