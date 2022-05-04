@@ -1,31 +1,15 @@
 import React from 'react';
 import csv from '../../data/public-apis-dump.csv';
+import { csvApiDataToJson, itemPassesPropertyFilter } from '../utils';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-const categoriesValues = new Set();
-const authValues = new Set();
-const httpsValues = ['Yes', 'No'];
-const corsValues = ['Yes', 'No'];
-
-let currentCategory = '';
-const flatData = csv.map((resource) => {
-    const [category, title, url, description, auth, https, cors] = resource;
-    if (category.length > 0) {
-        currentCategory = category;
-        categoriesValues.add(currentCategory);
-    }
-    authValues.add(auth);
-
-    return {
-        category: currentCategory,
-        title,
-        url,
-        description,
-        auth,
-        https,
-        cors,
-    };
-});
+const {
+    mappedData: flatData,
+    categoriesValues,
+    authValues,
+    httpsValues,
+    corsValues,
+} = csvApiDataToJson(csv);
 
 const filters = [
     {
@@ -52,16 +36,35 @@ const initialFilterState = filters.reduce((acc, curr) => {
 
 export const ApplicationContext = React.createContext();
 export const ApplicationProvider = (props) => {
-    const [selectedData, setSelectedData] = React.useState(flatData);
-
+    const [loading, setLoading] = React.useState(true);
     const [selectedFilters, setSelectedFilters] = useLocalStorage(
         'selectedFilters',
         initialFilterState
     );
 
+    const filteredData = React.useCallback(
+        flatData.filter((item) => {
+            const { Categories, Auth, Cors, Https } = selectedFilters;
+
+            const passesCategoryFilter = itemPassesPropertyFilter(item.category, Categories);
+            const passesAuthFilter = itemPassesPropertyFilter(item.auth, Auth);
+            const passesCorsFilter = itemPassesPropertyFilter(item.cors, Cors);
+            const passesHttpsFilter = itemPassesPropertyFilter(item.https, Https);
+
+            return (
+                passesCategoryFilter && passesAuthFilter && passesCorsFilter && passesHttpsFilter
+            );
+        }),
+        [selectedFilters]
+    );
+
     function resetFilter() {
         setSelectedFilters({ ...initialFilterState });
     }
+
+    React.useEffect(() => {
+        setLoading(false);
+    }, []);
 
     return (
         <ApplicationContext.Provider
@@ -72,7 +75,12 @@ export const ApplicationProvider = (props) => {
                     setSelectedFilters,
                     resetFilter,
                 },
-                data: selectedData,
+                data: {
+                    filteredData,
+                },
+                state: {
+                    loading,
+                },
             }}
         >
             {props.children}

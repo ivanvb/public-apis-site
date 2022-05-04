@@ -3,14 +3,19 @@ import { ApplicationContext } from '../context/ApplicationContext';
 import DataTable from './DataTable';
 
 const ApisTable = () => {
-    const { data } = useContext(ApplicationContext);
+    const {
+        data: { filteredData },
+        state: { loading },
+    } = useContext(ApplicationContext);
 
     return (
         <>
-            <DataTable
-                headings={['Title', 'Description', 'Category', 'Auth', 'Https', 'Cors']}
-                rows={data.slice(0, 20)}
-            />
+            {loading === false && (
+                <DataTable
+                    headings={['Title', 'Description', 'Category', 'Auth', 'Https', 'Cors']}
+                    rows={filteredData.slice(0, 20)}
+                />
+            )}
         </>
     );
 };
