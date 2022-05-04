@@ -24,9 +24,7 @@ const DataTable = ({ headings, rows = [] }) => {
                     },
                 }}
             >
-                <TableHead
-                    sx={{ position: 'sticky', top: 0, background: theme.palette.background.darker }}
-                >
+                <TableHead sx={{ background: theme.palette.background.darker }}>
                     <TableRow>
                         {headings.map((heading, i) => {
                             return (
