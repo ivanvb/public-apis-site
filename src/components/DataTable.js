@@ -10,11 +10,13 @@ import {
     Link,
 } from '@mui/material';
 import { useTheme } from '@mui/system';
+import DataTableToolbar from './DataTableToolbar';
 
 const DataTable = ({ headings, rows = [] }) => {
     const theme = useTheme();
     return (
         <TableContainer component={Paper} sx={{ mb: 12 }}>
+            <DataTableToolbar title="Public APIs" />
             <Table
                 sx={{
                     '& tbody tr:last-child td': {
