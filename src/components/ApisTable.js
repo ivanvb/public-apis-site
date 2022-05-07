@@ -13,7 +13,7 @@ const ApisTable = () => {
             {loading === false && (
                 <DataTable
                     headings={['Title', 'Description', 'Category', 'Auth', 'Https', 'Cors']}
-                    rows={filteredData.slice(0, 20)}
+                    rows={filteredData}
                 />
             )}
         </>
