@@ -12,20 +12,26 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/system';
 import DataTableToolbar from './DataTableToolbar';
+import { useQueryState, queryTypes } from 'next-usequerystate';
 
 const DataTable = ({ headings, rows = [] }) => {
     const rowsPerPageOptions = [10, 25, 50, { value: rows.length, label: 'All' }];
     const theme = useTheme();
-    const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
-    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = useQueryState(
+        'rowsPerPage',
+        queryTypes.integer.withDefault(rowsPerPageOptions[0])
+    );
+    const [page, setPage] = useQueryState('page', queryTypes.integer.withDefault(1));
+    // The first page in the query string is 1, but internally the first page is
+    const computedPage = page - 1;
 
     function handlePageChange(event, newPage) {
-        setPage(newPage);
+        setPage(newPage + 1);
     }
 
-    function handleRowsPerPageChange(event) {
-        setRowsPerPage(Number.parseInt(event.target.value));
-        setPage(0);
+    async function handleRowsPerPageChange(event) {
+        await setRowsPerPage(Number.parseInt(event.target.value));
+        await setPage(1);
     }
 
     const currentRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -99,7 +105,7 @@ const DataTable = ({ headings, rows = [] }) => {
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
-                    page={page}
+                    page={computedPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                 />
