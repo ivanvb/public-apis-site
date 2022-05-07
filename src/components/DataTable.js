@@ -34,7 +34,10 @@ const DataTable = ({ headings, rows = [] }) => {
         await setPage(1);
     }
 
-    const currentRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const currentRows = rows.slice(
+        computedPage * rowsPerPage,
+        computedPage * rowsPerPage + rowsPerPage
+    );
 
     return (
         <>
