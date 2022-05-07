@@ -14,7 +14,7 @@ import { useTheme } from '@mui/system';
 import DataTableToolbar from './DataTableToolbar';
 
 const DataTable = ({ headings, rows = [] }) => {
-    const rowsPerPageOptions = [...new Set([10, 25, 50, rows.length])];
+    const rowsPerPageOptions = [10, 25, 50, { value: rows.length, label: 'All' }];
     const theme = useTheme();
     const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
     const [page, setPage] = React.useState(0);
@@ -31,53 +31,80 @@ const DataTable = ({ headings, rows = [] }) => {
     const currentRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
-        <TableContainer component={Paper} sx={{ mb: 12 }}>
-            <DataTableToolbar title="Public APIs" />
-            <Table
-                sx={{
-                    '& tbody tr:last-child td': {
-                        border: '0px',
-                    },
-                }}
-            >
-                <TableHead sx={{ background: theme.palette.background.darker }}>
-                    <TableRow>
-                        {headings.map((heading, i) => {
+        <>
+            <TableContainer component={Paper} sx={{ mb: 12 }}>
+                <DataTableToolbar title="Public APIs" />
+                <Table>
+                    <TableHead sx={{ background: theme.palette.background.darker }}>
+                        <TableRow>
+                            {headings.map((heading, i) => {
+                                return (
+                                    <TableCell
+                                        align={i > 1 ? 'right' : 'left'}
+                                        sx={{ border: 'none' }}
+                                        key={i}
+                                    >
+                                        {heading}
+                                    </TableCell>
+                                );
+                            })}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentRows.map((row, i) => {
                             return (
-                                <TableCell sx={{ border: 'none' }} key={i}>
-                                    {heading}
-                                </TableCell>
+                                <TableRow key={i}>
+                                    <TableCell>
+                                        <Link href={row.url}>{row.title}</Link>
+                                    </TableCell>
+                                    <TableCell>{row.description}</TableCell>
+                                    <TableCell align="right">{row.category}</TableCell>
+                                    <TableCell align="right">{row.auth}</TableCell>
+                                    <TableCell align="right">{row.https}</TableCell>
+                                    <TableCell align="right">{row.cors}</TableCell>
+                                </TableRow>
                             );
                         })}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {currentRows.map((row, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell>
-                                    <Link href={row.url}>{row.title}</Link>
-                                </TableCell>
-                                <TableCell>{row.description}</TableCell>
-                                <TableCell>{row.category}</TableCell>
-                                <TableCell>{row.auth}</TableCell>
-                                <TableCell>{row.https}</TableCell>
-                                <TableCell>{row.cors}</TableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-            <TablePagination
-                rowsPerPageOptions={rowsPerPageOptions}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-            />
-        </TableContainer>
+                    </TableBody>
+                </Table>
+
+                <TablePagination
+                    sx={{
+                        '& .MuiTablePagination-toolbar': {
+                            flexWrap: {
+                                xs: 'wrap',
+                                sm: 'nowrap',
+                            },
+                        },
+                        '& [class*="MuiInputBase-root-MuiTablePagination-select"]': {
+                            marginRight: {
+                                xs: '50%',
+                                sm: '24px',
+                            },
+                        },
+                        '& .MuiTablePagination-displayedRows': {
+                            marginTop: {
+                                xs: '5px',
+                                sm: '14px',
+                            },
+                        },
+                        '& .MuiTablePagination-actions': {
+                            marginTop: {
+                                xs: '-10px',
+                                sm: 'initial',
+                            },
+                        },
+                    }}
+                    rowsPerPageOptions={rowsPerPageOptions}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                />
+            </TableContainer>
+        </>
     );
 };
 
