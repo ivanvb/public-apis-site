@@ -44,3 +44,36 @@ export function itemPassesPropertyFilter(value, filterCategory) {
         return val && key === value;
     }, false);
 }
+
+export function parseQueryString(queryString) {
+    const filterRegex = /(?<category>.*?)\[(?<values>.*?)\]/g;
+    const result = {
+        Categories: {},
+        Auth: {},
+        Https: {},
+        Cors: {},
+    };
+    for (const match of queryString.matchAll(filterRegex)) {
+        const { category, values } = match.groups;
+        result[category] = values.split(',').reduce((acc, curr) => {
+            return { ...acc, [curr]: true };
+        }, {});
+    }
+
+    return result;
+}
+
+export function filtersToQueryString(filters) {
+    const serializeFilters = Object.entries(filters).reduce((acc, curr) => {
+        const [filterName, selectedValues] = curr;
+        const selectedKeys = Object.keys(selectedValues);
+        if (selectedKeys.length === 0) return acc;
+
+        const activeKeys = selectedKeys.filter((key) => selectedValues[key]);
+        if (activeKeys.length === 0) return acc;
+
+        return `${acc}${filterName}[${activeKeys.join(',')}]`;
+    }, '');
+
+    return serializeFilters;
+}

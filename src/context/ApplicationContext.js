@@ -1,7 +1,12 @@
 import React from 'react';
+import { useQueryState, queryTypes } from 'next-usequerystate';
 import csv from '../../data/public-apis-dump.csv';
-import { csvApiDataToJson, itemPassesPropertyFilter } from '../utils';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import {
+    csvApiDataToJson,
+    itemPassesPropertyFilter,
+    parseQueryString,
+    filtersToQueryString,
+} from '../utils';
 
 const {
     mappedData: flatData,
@@ -37,10 +42,12 @@ const initialFilterState = filters.reduce((acc, curr) => {
 export const ApplicationContext = React.createContext();
 export const ApplicationProvider = (props) => {
     const [loading, setLoading] = React.useState(true);
-    const [selectedFilters, setSelectedFilters] = useLocalStorage(
-        'selectedFilters',
-        initialFilterState
-    );
+    const [selectedFilters, setSelectedFilters] = useQueryState('selectedFilters', {
+        ...queryTypes.json(),
+        defaultValue: initialFilterState,
+        parse: parseQueryString,
+        serialize: filtersToQueryString,
+    });
 
     const filteredData = React.useCallback(
         flatData.filter((item) => {
