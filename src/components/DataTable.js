@@ -151,7 +151,7 @@ const DataTable = ({ headings, search, liked, onLike, onRemoveLike, rows = [] })
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
-                page={computedPage}
+                page={rows.length === 0 ? 0 : computedPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
