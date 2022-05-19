@@ -74,6 +74,13 @@ export const ApplicationProvider = (props) => {
         [selectedFilters, search]
     );
 
+    const numberOfSelectedFilters = React.useCallback(
+        Object.values(selectedFilters).reduce((total, filterCategory) => {
+            return total + Object.entries(filterCategory).filter((isSelected) => isSelected).length;
+        }, 0),
+        [selectedFilters]
+    );
+
     function resetFilter() {
         setSelectedFilters({ ...initialFilterState });
     }
@@ -104,6 +111,7 @@ export const ApplicationProvider = (props) => {
                     resetFilter,
                     search,
                     setSearch,
+                    numberOfSelectedFilters,
                 },
                 data: {
                     filteredData,
