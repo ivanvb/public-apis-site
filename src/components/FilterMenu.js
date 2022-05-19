@@ -14,8 +14,14 @@ const FilterMenu = () => {
         setShowFilter(false);
     }
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', zIndex: 20 }}>
-            <IconButton onClick={() => setShowFilter((prev) => !prev)}>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                zIndex: 20,
+            }}
+        >
+            <IconButton sx={{ width: '50px' }} onClick={() => setShowFilter((prev) => !prev)}>
                 <FilterListIcon />
             </IconButton>
             {showFilter && (
