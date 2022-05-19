@@ -9,6 +9,7 @@ import {
     TableRow,
     Link,
     TablePagination,
+    Container,
 } from '@mui/material';
 import { useTheme } from '@mui/system';
 import DataTableToolbar from './DataTableToolbar';
@@ -44,9 +45,9 @@ const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
     );
 
     return (
-        <>
-            <TableContainer component={Paper} sx={{ mb: 12 }}>
-                <DataTableToolbar title="Public APIs" />
+        <Paper sx={{ mb: 12 }}>
+            <DataTableToolbar title="Public APIs" />
+            <TableContainer>
                 <Table>
                     <TableHead sx={{ background: theme.palette.background.darker }}>
                         <TableRow>
@@ -101,44 +102,43 @@ const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
                         })}
                     </TableBody>
                 </Table>
-
-                <TablePagination
-                    sx={{
-                        '& .MuiTablePagination-toolbar': {
-                            flexWrap: {
-                                xs: 'wrap',
-                                sm: 'nowrap',
-                            },
-                        },
-                        '& [class*="MuiInputBase-root-MuiTablePagination-select"]': {
-                            marginRight: {
-                                xs: '50%',
-                                sm: '24px',
-                            },
-                        },
-                        '& .MuiTablePagination-displayedRows': {
-                            marginTop: {
-                                xs: '5px',
-                                sm: '14px',
-                            },
-                        },
-                        '& .MuiTablePagination-actions': {
-                            marginTop: {
-                                xs: '-10px',
-                                sm: 'initial',
-                            },
-                        },
-                    }}
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={computedPage}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                />
             </TableContainer>
-        </>
+            <TablePagination
+                sx={{
+                    '& .MuiTablePagination-toolbar': {
+                        flexWrap: {
+                            xs: 'wrap',
+                            sm: 'nowrap',
+                        },
+                    },
+                    '& [class*="MuiInputBase-root-MuiTablePagination-select"]': {
+                        marginRight: {
+                            xs: '50%',
+                            sm: '24px',
+                        },
+                    },
+                    '& .MuiTablePagination-displayedRows': {
+                        marginTop: {
+                            xs: '5px',
+                            sm: '14px',
+                        },
+                    },
+                    '& .MuiTablePagination-actions': {
+                        marginTop: {
+                            xs: '-10px',
+                            sm: 'initial',
+                        },
+                    },
+                }}
+                rowsPerPageOptions={rowsPerPageOptions}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={computedPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+            />
+        </Paper>
     );
 };
 
