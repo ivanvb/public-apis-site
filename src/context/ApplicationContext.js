@@ -7,6 +7,7 @@ import {
     parseQueryString,
     filtersToQueryString,
 } from '../utils';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const {
     mappedData: flatData,
@@ -48,6 +49,7 @@ export const ApplicationProvider = (props) => {
         parse: parseQueryString,
         serialize: filtersToQueryString,
     });
+    const [liked, setLiked] = useLocalStorage('liked', {});
 
     const filteredData = React.useCallback(
         flatData.filter((item) => {
@@ -73,6 +75,18 @@ export const ApplicationProvider = (props) => {
         setLoading(false);
     }, []);
 
+    function addLike(id) {
+        setLiked((prev) => {
+            return { ...prev, [id]: true };
+        });
+    }
+
+    function removeLike(id) {
+        setLiked((prev) => {
+            return { ...prev, [id]: false };
+        });
+    }
+
     return (
         <ApplicationContext.Provider
             value={{
@@ -87,6 +101,11 @@ export const ApplicationProvider = (props) => {
                 },
                 state: {
                     loading,
+                },
+                likes: {
+                    liked,
+                    addLike,
+                    removeLike,
                 },
             }}
         >

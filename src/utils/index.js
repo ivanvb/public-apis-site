@@ -21,6 +21,7 @@ export function csvApiDataToJson(csv) {
             auth,
             https,
             cors,
+            id: title.toLowerCase().replace(/ /g, '-'),
         };
     });
 
