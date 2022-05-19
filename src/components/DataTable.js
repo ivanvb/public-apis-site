@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     TableContainer,
     Paper,
@@ -19,7 +19,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { useQueryState, queryTypes } from 'next-usequerystate';
 
-const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
+const DataTable = ({ headings, search, liked, onLike, onRemoveLike, rows = [] }) => {
     const rowsPerPageOptions = [10, 25, 50, { value: rows.length, label: 'All' }];
     const theme = useTheme();
     const [rowsPerPage, setRowsPerPage] = useQueryState(
@@ -46,7 +46,10 @@ const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
 
     const extraRows = [...new Array(rowsPerPage - currentRows.length)];
 
-    console.log(extraRows);
+    useEffect(() => {
+        setPage(1);
+    }, [search]);
+
     return (
         <Paper sx={{ mb: 12 }}>
             <DataTableToolbar title="Public APIs" />

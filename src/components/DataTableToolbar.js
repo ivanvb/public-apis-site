@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, TextField, Toolbar, Typography } from '@mui/material';
 import { useTheme } from '@mui/system';
 import FilterMenu from './FilterMenu';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { ApplicationContext } from '../context/ApplicationContext';
 
-const SearchField = ({ isMobile }) => {
+const SearchField = ({ isMobile, value, onChange }) => {
     return (
         <TextField
             label="Search"
             variant={isMobile ? 'outlined' : 'standard'}
             sx={{ width: isMobile ? '100%' : '245px', marginTop: isMobile ? 2 : 0 }}
+            value={value}
+            onChange={onChange}
         />
     );
 };
@@ -17,7 +20,13 @@ const SearchField = ({ isMobile }) => {
 const DataTableToolbar = ({ title }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const {
+        filter: { search, setSearch },
+    } = useContext(ApplicationContext);
 
+    function handleChange(e) {
+        setSearch(e.target.value);
+    }
     return (
         <Toolbar
             sx={{
@@ -30,10 +39,12 @@ const DataTableToolbar = ({ title }) => {
         >
             <Typography variant="h5">{title}</Typography>
             <Box sx={{ display: 'flex' }}>
-                {!isMobile && <SearchField isMobile={isMobile} />}
+                {!isMobile && (
+                    <SearchField value={search} onChange={handleChange} isMobile={isMobile} />
+                )}
                 <FilterMenu />
             </Box>
-            {isMobile && <SearchField isMobile={isMobile} />}
+            {isMobile && <SearchField value={search} onChange={handleChange} isMobile={isMobile} />}
         </Toolbar>
     );
 };

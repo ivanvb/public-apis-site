@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQueryState, queryTypes } from 'next-usequerystate';
 import csv from '../../data/public-apis-dump.csv';
 import {
@@ -6,6 +6,7 @@ import {
     itemPassesPropertyFilter,
     parseQueryString,
     filtersToQueryString,
+    itemPassesSearchFilter,
 } from '../utils';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -50,6 +51,7 @@ export const ApplicationProvider = (props) => {
         serialize: filtersToQueryString,
     });
     const [liked, setLiked] = useLocalStorage('liked', {});
+    const [search, setSearch] = useState('');
 
     const filteredData = React.useCallback(
         flatData.filter((item) => {
@@ -59,12 +61,17 @@ export const ApplicationProvider = (props) => {
             const passesAuthFilter = itemPassesPropertyFilter(item.auth, Auth);
             const passesCorsFilter = itemPassesPropertyFilter(item.cors, Cors);
             const passesHttpsFilter = itemPassesPropertyFilter(item.https, Https);
+            const passesSearchFilter = itemPassesSearchFilter(item, search);
 
             return (
-                passesCategoryFilter && passesAuthFilter && passesCorsFilter && passesHttpsFilter
+                passesCategoryFilter &&
+                passesAuthFilter &&
+                passesCorsFilter &&
+                passesHttpsFilter &&
+                passesSearchFilter
             );
         }),
-        [selectedFilters]
+        [selectedFilters, search]
     );
 
     function resetFilter() {
@@ -95,6 +102,8 @@ export const ApplicationProvider = (props) => {
                     selectedFilters,
                     setSelectedFilters,
                     resetFilter,
+                    search,
+                    setSearch,
                 },
                 data: {
                     filteredData,

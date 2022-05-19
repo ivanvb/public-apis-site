@@ -46,6 +46,15 @@ export function itemPassesPropertyFilter(value, filterCategory) {
     }, false);
 }
 
+export function itemPassesSearchFilter(item, searchValue) {
+    if (searchValue.length === 0) return true;
+
+    return (
+        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchValue.toLowerCase())
+    );
+}
+
 export function parseQueryString(queryString) {
     const filterRegex = /(?<category>.*?)\[(?<values>.*?)\]/g;
     const result = {

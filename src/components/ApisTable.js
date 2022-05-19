@@ -7,6 +7,7 @@ const ApisTable = () => {
         data: { filteredData },
         state: { loading },
         likes: { liked, addLike, removeLike },
+        filter: { search },
     } = useContext(ApplicationContext);
 
     return (
@@ -17,6 +18,7 @@ const ApisTable = () => {
                     rows={filteredData}
                     liked={liked}
                     onLike={addLike}
+                    search={search}
                     onRemoveLike={removeLike}
                 />
             )}
