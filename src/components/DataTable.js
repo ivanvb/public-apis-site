@@ -44,6 +44,9 @@ const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
         computedPage * rowsPerPage + rowsPerPage
     );
 
+    const extraRows = [...new Array(rowsPerPage - currentRows.length)];
+
+    console.log(extraRows);
     return (
         <Paper sx={{ mb: 12 }}>
             <DataTableToolbar title="Public APIs" />
@@ -97,6 +100,17 @@ const DataTable = ({ headings, liked, onLike, onRemoveLike, rows = [] }) => {
                                     <TableCell align="right">{row.auth}</TableCell>
                                     <TableCell align="right">{row.https}</TableCell>
                                     <TableCell align="right">{row.cors}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                        {extraRows.map((_, i) => {
+                            return (
+                                <TableRow key={i}>
+                                    <TableCell
+                                        sx={{ border: 'none', opacity: 0, pointerEvents: 'none' }}
+                                    >
+                                        <FavoriteBorderIcon sx={{ height: '36px' }} />
+                                    </TableCell>
                                 </TableRow>
                             );
                         })}
