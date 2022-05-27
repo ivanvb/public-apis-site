@@ -53,7 +53,7 @@ export const ApplicationProvider = (props) => {
     });
     const [liked, setLiked] = useLocalStorage('liked', {});
     const [likedFilter, setLikedFilter] = useLocalStorage('likedFilter', false);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useQueryState('search', queryTypes.string.withDefault(''));
 
     const filteredData = React.useCallback(
         flatData.filter((item) => {
