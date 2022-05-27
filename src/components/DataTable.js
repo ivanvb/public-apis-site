@@ -9,12 +9,14 @@ import {
     TableRow,
     Link,
     TablePagination,
+    Box,
 } from '@mui/material';
 import { useTheme } from '@mui/system';
 import DataTableToolbar from './DataTableToolbar';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import NoResults from './NoResults';
 import { useQueryState, queryTypes } from 'next-usequerystate';
 
 const DataTableRow = React.memo(({ rowData, isRowLiked, onRemoveLike, onLike }) => {
@@ -80,7 +82,7 @@ const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, r
     return (
         <Paper sx={{ mb: 12 }}>
             <DataTableToolbar title="Public APIs" />
-            <TableContainer>
+            <TableContainer sx={{ position: 'relative' }}>
                 <Table>
                     <TableHead sx={{ background: theme.palette.background.darker }}>
                         <TableRow>
@@ -125,6 +127,7 @@ const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, r
                         })}
                     </TableBody>
                 </Table>
+                {rows.length === 0 && <NoResults />}
             </TableContainer>
             <TablePagination
                 sx={{
