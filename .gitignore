@@ -33,3 +33,5 @@ yarn-error.log*
 
 **/data/public-apis-dump.json
 **/data/public-apis-dump.csv
+
+.env

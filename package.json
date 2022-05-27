@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "fetch-data": "node ./scripts/index.mjs",
+        "build": "yarn fetch-data && next build",
         "export": "next export",
         "start": "next start",
         "lint": "next lint"
@@ -25,7 +26,11 @@
     },
     "devDependencies": {
         "csv-loader": "^3.0.3",
+        "dotenv": "^16.0.1",
         "eslint": "8.14.0",
-        "eslint-config-next": "12.1.5"
+        "eslint-config-next": "12.1.5",
+        "isomorphic-fetch": "^3.0.0",
+        "jsdom": "^19.0.0",
+        "marked": "^4.0.16"
     }
 }
