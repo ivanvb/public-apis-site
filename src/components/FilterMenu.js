@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, IconButton, ClickAwayListener, Badge } from '@mui/material';
+import { Box, IconButton, ClickAwayListener, Badge, Tooltip } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import LikedIcon from "@mui/icons-material/Favorite"
 import FilterMenuModal from './FilterMenuModal';
@@ -25,12 +25,14 @@ const FilterMenu = () => {
                 alignItems: 'center'
             }}
         >
-            <IconButton sx={{ width: '35px', height: '35px', mt: {
-                xs: 0,
-                md: 0.5
-            } }} onClick={toggleLikedFilter}>
-                    <LikedIcon color={likedFilter ? 'primary': ''}/>
-            </IconButton>
+            <Tooltip title={likedFilter ? 'Show all' :  'Show liked items' }>
+                <IconButton sx={{ width: '35px', height: '35px', mt: {
+                    xs: 0,
+                    md: 0.5
+                } }} onClick={toggleLikedFilter}>
+                        <LikedIcon color={likedFilter ? 'primary': ''}/>
+                </IconButton>
+            </Tooltip>
             <IconButton sx={{ width: '40px' }} onClick={() => setShowFilter((prev) => !prev)}>
                 <Badge
                     badgeContent={numberOfSelectedFilters}
