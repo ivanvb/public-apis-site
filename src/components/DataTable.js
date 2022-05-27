@@ -44,6 +44,7 @@ const DataTableRow = React.memo(({ rowData, isRowLiked, onRemoveLike, onLike }) 
         </TableRow>
     );
 });
+DataTableRow.displayName = 'DataTableRow';
 
 const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, rows = [] }) => {
     const rowsPerPageOptions = [10, 25, 50, { value: rows.length, label: 'All' }];
@@ -163,5 +164,5 @@ const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, r
         </Paper>
     );
 });
-
+DataTable.displayName = 'DataTable';
 export default DataTable;
