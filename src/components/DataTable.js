@@ -9,17 +9,43 @@ import {
     TableRow,
     Link,
     TablePagination,
-    Container,
 } from '@mui/material';
 import { useTheme } from '@mui/system';
 import DataTableToolbar from './DataTableToolbar';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
 import { useQueryState, queryTypes } from 'next-usequerystate';
 
-const DataTable = ({ headings, search, liked, onLike, onRemoveLike, rows = [] }) => {
+const DataTableRow = React.memo(({ rowData, isRowLiked, onRemoveLike, onLike }) => {
+    const LikedStatusIcon = isRowLiked ? FavoriteIcon : FavoriteBorderIcon;
+    return (
+        <TableRow sx={{ cursor: 'pointer' }}>
+            <TableCell>
+                <IconButton
+                    aria-label={
+                        isRowLiked
+                            ? `Remove "${rowData.title}" from favorites`
+                            : `Add "${rowData.title}" to favorites`
+                    }
+                    onClick={() => (isRowLiked ? onRemoveLike(rowData.id) : onLike(rowData.id))}
+                >
+                    <LikedStatusIcon color="primary" />
+                </IconButton>
+            </TableCell>
+            <TableCell>
+                <Link href={rowData.url}>{rowData.title}</Link>
+            </TableCell>
+            <TableCell>{rowData.description}</TableCell>
+            <TableCell align="right">{rowData.category}</TableCell>
+            <TableCell align="right">{rowData.auth}</TableCell>
+            <TableCell align="right">{rowData.https}</TableCell>
+            <TableCell align="right">{rowData.cors}</TableCell>
+        </TableRow>
+    );
+});
+
+const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, rows = [] }) => {
     const rowsPerPageOptions = [10, 25, 50, { value: rows.length, label: 'All' }];
     const theme = useTheme();
     const [rowsPerPage, setRowsPerPage] = useQueryState(
@@ -76,34 +102,13 @@ const DataTable = ({ headings, search, liked, onLike, onRemoveLike, rows = [] })
                             const isRowLiked = liked[row.id];
 
                             return (
-                                <TableRow key={i} sx={{ cursor: 'pointer' }}>
-                                    <TableCell>
-                                        <IconButton
-                                            aria-label={
-                                                isRowLiked
-                                                    ? `Remove "${row.title}" from favorites`
-                                                    : `Add "${row.title}" to favorites`
-                                            }
-                                            onClick={() =>
-                                                isRowLiked ? onRemoveLike(row.id) : onLike(row.id)
-                                            }
-                                        >
-                                            {isRowLiked ? (
-                                                <FavoriteIcon color="primary" />
-                                            ) : (
-                                                <FavoriteBorderIcon color="primary" />
-                                            )}
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Link href={row.url}>{row.title}</Link>
-                                    </TableCell>
-                                    <TableCell>{row.description}</TableCell>
-                                    <TableCell align="right">{row.category}</TableCell>
-                                    <TableCell align="right">{row.auth}</TableCell>
-                                    <TableCell align="right">{row.https}</TableCell>
-                                    <TableCell align="right">{row.cors}</TableCell>
-                                </TableRow>
+                                <DataTableRow
+                                    key={i}
+                                    rowData={row}
+                                    isRowLiked={isRowLiked}
+                                    onRemoveLike={onRemoveLike}
+                                    onLike={onLike}
+                                />
                             );
                         })}
                         {extraRows.map((_, i) => {
@@ -157,6 +162,6 @@ const DataTable = ({ headings, search, liked, onLike, onRemoveLike, rows = [] })
             />
         </Paper>
     );
-};
+});
 
 export default DataTable;

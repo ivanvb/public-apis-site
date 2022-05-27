@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { ApplicationContext } from '../context/ApplicationContext';
 import DataTable from './DataTable';
 
+const headings = ['Title', 'Description', 'Category', 'Auth', 'Https', 'Cors'];
 const ApisTable = () => {
     const {
         data: { filteredData },
@@ -14,7 +15,7 @@ const ApisTable = () => {
         <>
             {loading === false && (
                 <DataTable
-                    headings={['Title', 'Description', 'Category', 'Auth', 'Https', 'Cors']}
+                    headings={headings}
                     rows={filteredData}
                     liked={liked}
                     onLike={addLike}

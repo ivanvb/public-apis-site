@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQueryState, queryTypes } from 'next-usequerystate';
 import csv from '../../data/public-apis-dump.csv';
 import {
@@ -89,17 +89,17 @@ export const ApplicationProvider = (props) => {
         setLoading(false);
     }, []);
 
-    function addLike(id) {
+    const addLike = useCallback((id) => {
         setLiked((prev) => {
             return { ...prev, [id]: true };
         });
-    }
+    }, []);
 
-    function removeLike(id) {
+    const removeLike = useCallback((id) => {
         setLiked((prev) => {
             return { ...prev, [id]: false };
         });
-    }
+    }, []);
 
     return (
         <ApplicationContext.Provider
