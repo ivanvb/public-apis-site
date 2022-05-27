@@ -19,8 +19,8 @@ export function csvApiDataToJson(csv) {
             url,
             description,
             auth,
-            https,
-            cors,
+            https: https === 1 ? 'Yes' : 'No',
+            cors: cors === 1 ? 'Yes' : 'No',
             id: title.toLowerCase().replace(/ /g, '-'),
         };
     });
@@ -55,8 +55,8 @@ export function itemPassesSearchFilter(item, searchValue) {
     );
 }
 
-export function itemPassesLikedFilter(item, likedItems){
-    return Boolean(likedItems[item.id])
+export function itemPassesLikedFilter(item, likedItems) {
+    return Boolean(likedItems[item.id]);
 }
 
 export function parseQueryString(queryString) {

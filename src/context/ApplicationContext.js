@@ -7,7 +7,7 @@ import {
     parseQueryString,
     filtersToQueryString,
     itemPassesSearchFilter,
-    itemPassesLikedFilter
+    itemPassesLikedFilter,
 } from '../utils';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -64,7 +64,7 @@ export const ApplicationProvider = (props) => {
             const passesCorsFilter = itemPassesPropertyFilter(item.cors, Cors);
             const passesHttpsFilter = itemPassesPropertyFilter(item.https, Https);
             const passesSearchFilter = itemPassesSearchFilter(item, search);
-            const passesLikedFilter = likedFilter === false || itemPassesLikedFilter(item, liked)
+            const passesLikedFilter = likedFilter === false || itemPassesLikedFilter(item, liked);
 
             return (
                 passesCategoryFilter &&
@@ -106,8 +106,8 @@ export const ApplicationProvider = (props) => {
     }, []);
 
     const toggleLikedFilter = () => {
-        setLikedFilter(prev => !prev)
-    }
+        setLikedFilter((prev) => !prev);
+    };
 
     return (
         <ApplicationContext.Provider
@@ -132,7 +132,7 @@ export const ApplicationProvider = (props) => {
                     addLike,
                     removeLike,
                     likedFilter,
-                    toggleLikedFilter
+                    toggleLikedFilter,
                 },
             }}
         >
