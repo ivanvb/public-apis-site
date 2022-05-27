@@ -20,7 +20,7 @@ import { useQueryState, queryTypes } from 'next-usequerystate';
 const DataTableRow = React.memo(({ rowData, isRowLiked, onRemoveLike, onLike }) => {
     const LikedStatusIcon = isRowLiked ? FavoriteIcon : FavoriteBorderIcon;
     return (
-        <TableRow sx={{ cursor: 'pointer' }}>
+        <TableRow>
             <TableCell>
                 <IconButton
                     aria-label={
