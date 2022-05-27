@@ -55,6 +55,10 @@ export function itemPassesSearchFilter(item, searchValue) {
     );
 }
 
+export function itemPassesLikedFilter(item, likedItems){
+    return Boolean(likedItems[item.id])
+}
+
 export function parseQueryString(queryString) {
     const filterRegex = /(?<category>.*?)\[(?<values>.*?)\]/g;
     const result = {

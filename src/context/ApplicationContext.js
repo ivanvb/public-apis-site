@@ -7,6 +7,7 @@ import {
     parseQueryString,
     filtersToQueryString,
     itemPassesSearchFilter,
+    itemPassesLikedFilter
 } from '../utils';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -51,6 +52,7 @@ export const ApplicationProvider = (props) => {
         serialize: filtersToQueryString,
     });
     const [liked, setLiked] = useLocalStorage('liked', {});
+    const [likedFilter, setLikedFilter] = useLocalStorage('likedFilter', false);
     const [search, setSearch] = useState('');
 
     const filteredData = React.useCallback(
@@ -62,16 +64,18 @@ export const ApplicationProvider = (props) => {
             const passesCorsFilter = itemPassesPropertyFilter(item.cors, Cors);
             const passesHttpsFilter = itemPassesPropertyFilter(item.https, Https);
             const passesSearchFilter = itemPassesSearchFilter(item, search);
+            const passesLikedFilter = likedFilter === false || itemPassesLikedFilter(item, liked)
 
             return (
                 passesCategoryFilter &&
                 passesAuthFilter &&
                 passesCorsFilter &&
                 passesHttpsFilter &&
-                passesSearchFilter
+                passesSearchFilter &&
+                passesLikedFilter
             );
         }),
-        [selectedFilters, search]
+        [selectedFilters, search, likedFilter]
     );
 
     const numberOfSelectedFilters = React.useCallback(
@@ -101,6 +105,10 @@ export const ApplicationProvider = (props) => {
         });
     }, []);
 
+    const toggleLikedFilter = () => {
+        setLikedFilter(prev => !prev)
+    }
+
     return (
         <ApplicationContext.Provider
             value={{
@@ -123,6 +131,8 @@ export const ApplicationProvider = (props) => {
                     liked,
                     addLike,
                     removeLike,
+                    likedFilter,
+                    toggleLikedFilter
                 },
             }}
         >
