@@ -60,12 +60,12 @@ const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, r
     const computedPage = page - 1;
 
     function handlePageChange(event, newPage) {
-        setPage(newPage + 1);
+        setPage(newPage + 1, { scroll: false });
     }
 
     async function handleRowsPerPageChange(event) {
-        await setRowsPerPage(Number.parseInt(event.target.value));
-        await setPage(1);
+        await setRowsPerPage(Number.parseInt(event.target.value), { scroll: false });
+        await setPage(1, { scroll: false });
     }
 
     const currentRows = rows.slice(
@@ -76,7 +76,7 @@ const DataTable = React.memo(({ headings, search, liked, onLike, onRemoveLike, r
     const extraRows = [...new Array(rowsPerPage - currentRows.length)];
 
     useEffect(() => {
-        setPage(1);
+        setPage(1, { scroll: false });
     }, [search]);
 
     return (
