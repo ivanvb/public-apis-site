@@ -6,9 +6,8 @@ const theme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-            main: '#FFDE01',
+            main: '#87D534',
             contrastText: '#000',
-            dark: '#ff00ff',
         },
         secondary: {
             main: '#E25141',
@@ -18,7 +17,7 @@ const theme = createTheme({
             contrastText: '#fff',
         },
         background: {
-            default: '#1A2027EE',
+            default: '#23282E',
             paper: '#111216',
             darker: '#17171B',
         },
