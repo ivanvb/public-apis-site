@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { ApplicationContext } from '../context/ApplicationContext';
 
@@ -13,15 +13,18 @@ const TitleBar = ({ title }) => {
     const {
         filter: { filters },
     } = useContext(ApplicationContext);
-    const categories = useMemo(
-        () =>
-            filters
+
+    const [selectedWord, setSelectedWord] = useState('');
+
+    useEffect(() => {
+        setSelectedWord(() => {
+            return filters
                 .find((f) => f.name === 'Categories')
                 .values.map((a) => ({ sort: Math.random(), value: a }))
                 .sort((a, b) => a.sort - b.sort)
-                .map((a) => a.value),
-        []
-    );
+                .map((a) => a.value)[0];
+        });
+    }, []);
 
     return (
         <>
@@ -40,7 +43,7 @@ const TitleBar = ({ title }) => {
                     color="primary"
                     sx={{ ...styles, display: 'block' }}
                 >
-                    {categories[0]}
+                    {selectedWord}
                 </Typography>
             </Typography>
         </>
