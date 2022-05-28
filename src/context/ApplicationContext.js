@@ -93,17 +93,17 @@ export const ApplicationProvider = (props) => {
         setLoading(false);
     }, []);
 
-    const addLike = useCallback((id) => {
+    const addLike = (id) => {
         setLiked((prev) => {
             return { ...prev, [id]: true };
         });
-    }, []);
+    };
 
-    const removeLike = useCallback((id) => {
+    const removeLike = (id) => {
         setLiked((prev) => {
             return { ...prev, [id]: false };
         });
-    }, []);
+    };
 
     const toggleLikedFilter = () => {
         setLikedFilter((prev) => !prev);
