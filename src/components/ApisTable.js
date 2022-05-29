@@ -7,7 +7,7 @@ const ApisTable = () => {
     const {
         data: { filteredData },
         state: { loading },
-        likes: { liked, addLike, removeLike },
+        likes: { liked, addLike, removeLike, likedFilter },
         filter: { search },
     } = useContext(ApplicationContext);
 
@@ -21,6 +21,7 @@ const ApisTable = () => {
                     onLike={addLike}
                     search={search}
                     onRemoveLike={removeLike}
+                    likedFilter={likedFilter}
                 />
             )}
         </>
