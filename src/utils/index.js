@@ -19,8 +19,8 @@ export function csvApiDataToJson(csv) {
             url,
             description,
             auth,
-            https: https === 1 ? 'Yes' : 'No',
-            cors: cors === 1 ? 'Yes' : 'No',
+            https: https === '1' ? 'Yes' : 'No',
+            cors: cors === '1' ? 'Yes' : 'No',
             id: title.toLowerCase().replace(/ /g, '-'),
         };
     });
